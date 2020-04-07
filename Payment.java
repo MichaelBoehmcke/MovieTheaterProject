@@ -1,4 +1,4 @@
-package TicketVendor;
+
 import java.io.*;
 
 public class Payment implements Serializable{

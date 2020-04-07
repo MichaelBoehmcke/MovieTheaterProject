@@ -1,4 +1,3 @@
-package TicketVendor;
 
 public class Administrator extends Account{
 

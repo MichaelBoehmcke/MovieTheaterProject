@@ -9,7 +9,7 @@ public class DatabaseFrontEnd {
 	public static boolean isGuest;
 
 	public static void main(String[] args) {
-		db = new Database("Load");//use after first bootup
+	db = new Database("Load");//use after first bootup
 		
 		//use these on first bootup VV
 //				db = new Database();
@@ -17,7 +17,8 @@ public class DatabaseFrontEnd {
 //				db.venues.add(generateVenue());
 //				db.shows.add(generateF2());
 //				db.accounts.add(adminGen());
-
+				//memberPayment((Member)db.accounts.get(0));
+				
 		isGuest =!(logIn());
 		while (true & !isGuest) {
 			homeScreenHelper(user);
@@ -26,9 +27,9 @@ public class DatabaseFrontEnd {
 			guestHome();
 		}
 		//venueEditor();
+		
 	}
-	
-	//users edit what venue they want
+
 	public static void venueEditor() {
 		Scanner sc = new Scanner(System.in);
 		boolean loop=true;
@@ -78,8 +79,6 @@ public class DatabaseFrontEnd {
 			}
 		}
 	}
-
-	//users can add movies, plays, and events
 	public static void theatreEditor(Theater th) {
 		String input="";
 		boolean loop =true;
@@ -105,8 +104,7 @@ public class DatabaseFrontEnd {
 			}
 		}		
 	}
-	
-	//employees add shows
+
 	public static void addShow(Theater th) {
 		Show temp;
 		Scanner sc = new Scanner(System.in);
@@ -149,7 +147,6 @@ public class DatabaseFrontEnd {
 		}
 	}
 
-	//employees add shows
 	public static void showBuilder(Theater th) {
 		boolean loop = true;
 		Scanner sc = new Scanner(System.in);
@@ -166,7 +163,9 @@ public class DatabaseFrontEnd {
 			String ESRB = sc.nextLine();
 			System.out.println("Enter the runtime in minutes.");
 			int runtime = Integer.parseInt(sc.nextLine());
-			Show temp = new Show(name, type, description, genre, ESRB, runtime);
+			System.out.println("Enter the showtime for this show.");
+			String showTime= sc.nextLine();
+			Show temp = new Show(name, type, description, genre, ESRB, runtime,showTime);
 			System.out.println(temp.toString()+"\nThis is the show you created. Confirm addition (Y), start over(N), or exit without saving(E).");
 			String input = sc.nextLine();
 			if (input.equalsIgnoreCase("y")) {
@@ -201,7 +200,9 @@ public class DatabaseFrontEnd {
 			String ESRB = sc.nextLine();
 			System.out.println("Enter the runtime in minutes.");
 			int runtime = Integer.parseInt(sc.nextLine());
-			Show temp = new Show(name, type, description, genre, ESRB, runtime);
+			System.out.println("Enter the showtime for this show.");
+			String showTime= sc.nextLine();
+			Show temp = new Show(name, type, description, genre, ESRB, runtime,showTime);
 			System.out.println(temp.toString()+"\nThis is the show you created. Confirm addition (Y), start over(N), or exit without saving(E).");
 			String input = sc.nextLine();
 			if (input.equalsIgnoreCase("y")) {
@@ -220,7 +221,6 @@ public class DatabaseFrontEnd {
 		}
 	}
 
-	//login screen
 	public static void homeScreenHelper(Account usr) {
 		//String role = usr.getRole();
 		if (isGuest) {
@@ -236,8 +236,6 @@ public class DatabaseFrontEnd {
 		}
 		else System.out.println("Login Machine Broke");
 	}
-	
-	//home screen for guests
 	public static void guestHome() {
 		Scanner sc = new Scanner(System.in);
 		//System.out.println("Welcome back, "+user.getUsername()+"!");
@@ -260,8 +258,6 @@ public class DatabaseFrontEnd {
 			System.exit(0);
 		}
 	}
-
-	//home screen for members
 	public static void memberHome() {
 		Scanner sc = new Scanner(System.in);
 		//System.out.println("Welcome back, "+user.getUsername()+"!");
@@ -292,7 +288,6 @@ public class DatabaseFrontEnd {
 		}
 	}
 
-	//members can review shows they have seen 
 	public static void memberInfo(Member m) {
 		Scanner sc = new Scanner(System.in);
 		System.out.println(m.toString());
@@ -308,9 +303,6 @@ public class DatabaseFrontEnd {
 			else System.out.println("Something went wrong...");
 		}
 	}
-
-
-	//users can rate and review shows
 	public static void comment(Member m, Show s) {
 		Scanner sc = new Scanner(System.in);
 		System.out.println(s.toString());
@@ -336,8 +328,6 @@ public class DatabaseFrontEnd {
 			comment(m,s);
 		}
 	}
-
-	//admin homepage
 	public static void adminHome() {
 		Scanner sc = new Scanner(System.in);
 		//System.out.println("Welcome back, "+user.getUsername()+"!");
@@ -369,8 +359,6 @@ public class DatabaseFrontEnd {
 			System.exit(0);
 		}
 	}
-
-	//users can view and purchase tickets to venues
 	public static void venueViewer() {
 		db.printVenues();
 		String input="";
@@ -417,8 +405,6 @@ public class DatabaseFrontEnd {
 			}
 		}
 	}
-
-	//users can view shows
 	public static void showViewer() {
 		Scanner sc = new Scanner(System.in);
 		db.printShows();
@@ -445,8 +431,6 @@ public class DatabaseFrontEnd {
 
 
 	}
-
-	//users can purchase tickets
 	public static void viewTickets(Theater th) {
 		th.printTheater();
 		System.out.println("X means unavilable, * means available. \nWould you like to buy a ticket?Y/N");
@@ -460,11 +444,9 @@ public class DatabaseFrontEnd {
 			//sc.close();
 		}
 	}
-
-
-	//users purchase what seat they want
 	public static void purchase(int n, Theater th) {
-		Member temp = (Member) user;
+		if (!isGuest) {
+			Member temp = (Member) user;
 		Scanner sc = new Scanner(System.in);
 		for (int i=0;i<n;i++) {
 			th.printTheater();
@@ -472,15 +454,32 @@ public class DatabaseFrontEnd {
 			int row = sc.nextInt();
 			System.out.println("Enter column for ticket #"+(i+1));
 			int col = sc.nextInt();
-			th.getTicket(row, col);
+			th.getTicket(row, col, temp);
 			temp.purchaseTicket(th.show);
 
 		}
-		th.printTheater();
+		//th.printTheater();
+		}
+		else {
+			Payment p = guestPayment();
+			Scanner sc = new Scanner(System.in);
+			for (int i=0;i<n;i++) {
+				th.printTheater();
+				System.out.println("Enter row for ticket #"+(i+1));
+				int row = sc.nextInt();
+				System.out.println("Enter column for ticket #"+(i+1));
+				int col = sc.nextInt();
+				
+				th.getTicket(row, col, p);
+				//temp.purchaseTicket(th.show);
+
+			}
+			th.printTheater();
+			
+		}
 
 	}
 
-	//employees add venues
 	public static void venueBuilder() {
 		boolean loop = true;
 		Scanner sc = new Scanner(System.in);
@@ -517,7 +516,6 @@ public class DatabaseFrontEnd {
 		}
 	}
 
-	//login page for members
 	public static boolean logIn() {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Welcome to MockBuster!! Would you like to log in?\nY/N\nor Create account C");
@@ -579,12 +577,33 @@ public class DatabaseFrontEnd {
 		return false;
 	}
 
-
+	public static Payment guestPayment() {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Setting up Payment. Enter card type");
+		String type = sc.nextLine();
+		System.out.println("Enter cardholder name");
+		String name = sc.nextLine();
+		System.out.println("Enter expiration date");
+		String exp = sc.nextLine();
+		System.out.println("Enter card number");
+		long cardNum = Long.parseLong(sc.nextLine());
+		System.out.println("Enter cvv");
+		int cvv = Integer.parseInt(sc.nextLine());
+		return new Payment(type,name,exp,cardNum,cvv);
+	}
+	public static Payment memberPayment(Member m) {
+		if (m.getPayment()==null) {
+			m.setPayment(guestPayment());
+			return m.getPayment();		
+			}
+		else return m.getPayment();
+	}
 
 
 
 	//default objects for testing and stuff
 	public static Show generateF2() {
+		String showTime="7:30pm";
 		Show Frozen2;
 		String name ="Frozen II";
 		String type ="Movie";
@@ -593,7 +612,7 @@ public class DatabaseFrontEnd {
 		int runtime=103;
 		String description ="Anna, Elsa, Kristoff, Olaf and Sven leave Arendelle to travel to an ancient, autumn-bound forest of an enchanted land. They set out to find the origin of Elsa's powers in order to save their kingdom."; 
 
-		Frozen2 = new Show(name, type, description, genre, ESRB, runtime);
+		Frozen2 = new Show(name, type, description, genre, ESRB, runtime,showTime);
 		return Frozen2;
 	}
 	public static Venue generateVenue() {

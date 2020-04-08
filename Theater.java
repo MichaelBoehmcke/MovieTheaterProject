@@ -118,6 +118,25 @@ public class Theater implements Serializable{
 		//DO REWARDS AND DISCOUNT
 
 	}
+	/*
+	public void printReciept(Payment payment, Show show, Seat seat) {
+		String filename="";
+		try {
+			String fileContent = "Reciept ID: "+java.time.LocalDate.now()+"\nPayment Information: "+payment.toString()+
+					"\nTheatre #"+this.number+" Seat: "+seat.getID()+" to the show: "+show.name+"\n THANK YOU FOR YOUR PURCHASE!";
+			filename+=this.number+seat.getID()+show.name+"reciept.txt";
+			BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
+			writer.write(fileContent);
+			writer.close();
+			System.out.println("Receipt saved as: "+filename+"\n\n");
+		}
+		catch (IOException ex) {
+			System.out.println(ex);
+		}
+	
+	}
+	
+	*/
 	public void printReciept(Payment payment, Show show, Seat seat) {
 		String filename="";
 		try {

@@ -9,15 +9,20 @@ public class DatabaseFrontEnd {
 	public static boolean isGuest;
 
 	public static void main(String[] args) {
-	db = new Database("Load");//use after first bootup
-		
-		//use these on first bootup VV
-//				db = new Database();
-//				db.accounts.add(generateUser());
-//				db.venues.add(generateVenue());
-//				db.shows.add(generateF2());
-//				db.accounts.add(adminGen());
-				//memberPayment((Member)db.accounts.get(0));
+		File tmpDir = new File("accounts.ser");
+		boolean exists = tmpDir.exists();
+		if(exists) {
+			db = new Database("Load");//use after first bootup
+		}
+		else {
+			//use these on first bootup VV
+			db = new Database();
+			db.accounts.add(generateUser());
+			db.venues.add(generateVenue());
+			db.shows.add(generateF2());
+		    db.accounts.add(adminGen());
+		  //memberPayment((Member)db.accounts.get(0));
+		}			
 				
 		isGuest =!(logIn());
 		while (true & !isGuest) {
@@ -518,7 +523,7 @@ public class DatabaseFrontEnd {
 
 	public static boolean logIn() {
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Welcome to MockBuster!! Would you like to log in?\nY/N\nor Create account C");
+		System.out.println("Welcome to MockBuster!! Would you like to log in?\nY/N\nor Create account | C");
 		String input = sc.nextLine();
 		if (input.equalsIgnoreCase("n")) {
 			//sc.close();

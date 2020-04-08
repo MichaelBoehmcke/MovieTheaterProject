@@ -388,7 +388,7 @@ public class DatabaseFrontEnd {
 			while (loop2) {
 				Venue temp = db.venues.get(accessID);
 				System.out.println(temp.toString());
-				temp.showTheatres();
+				System.out.println(temp.showTheatres());
 				int maxInput2= temp.theaters.length-1;
 				System.out.println("Enter Theatre to view. Or type e to go back.\nNote the input range is 0-"+maxInput2);
 				if (sc.hasNextLine()) input2 = sc.nextLine();

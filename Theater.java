@@ -93,6 +93,7 @@ public class Theater implements Serializable{
 	      }
 	      System.out.println();
 	    }
+	    System.out.println("Theatre showing: "+this.show.name);
 	  }
 
 

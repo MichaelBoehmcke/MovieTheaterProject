@@ -1,3 +1,4 @@
+package TicketVendor;
 
 import java.util.ArrayList;
 import java.io.*;
@@ -44,6 +45,7 @@ public class Database {
 		int counter=0;
 		for (Venue v: venues) {
 			System.out.println("Venue Access ID: "+ counter+"  Venue: "+v.getName());
+			counter++;
 		}
 	}
 	public void printAccounts() {

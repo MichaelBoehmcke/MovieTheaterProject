@@ -1,4 +1,4 @@
-
+package TicketVendor;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -11,19 +11,20 @@ public class DatabaseFrontEnd {
 	public static void main(String[] args) {
 		File tmpDir = new File("accounts.ser");
 		boolean exists = tmpDir.exists();
-		if(exists) {
-			db = new Database("Load");//use after first bootup
+		if (exists) {
+		db = new Database("Load");//use after first bootup
+		db.lastID = db.venues.size()-1;
 		}
 		else {
-			//use these on first bootup VV
-			db = new Database();
-			db.accounts.add(generateUser());
-			db.venues.add(generateVenue());
-			db.shows.add(generateF2());
-		    db.accounts.add(adminGen());
-		  //memberPayment((Member)db.accounts.get(0));
-		}			
+			System.out.println("Performing first time setup.\n");
+				db = new Database();
+				db.accounts.add(generateUser());
+				db.venues.add(generateVenue());
+				db.shows.add(generateF2());
+				db.accounts.add(adminGen());
+		
 				
+		}
 		isGuest =!(logIn());
 		while (true & !isGuest) {
 			homeScreenHelper(user);
@@ -31,7 +32,6 @@ public class DatabaseFrontEnd {
 		while (true) {
 			guestHome();
 		}
-		//venueEditor();
 		
 	}
 
@@ -148,6 +148,7 @@ public class DatabaseFrontEnd {
 			}
 			else if (input.equals("2")) {
 				showBuilder(th);
+				return;
 			}
 		}
 	}
@@ -523,7 +524,7 @@ public class DatabaseFrontEnd {
 
 	public static boolean logIn() {
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Welcome to MockBuster!! Would you like to log in?\nY/N\nor Create account | C");
+		System.out.println("Welcome to MockBuster!! Would you like to log in?\nY/N\nor Create account C");
 		String input = sc.nextLine();
 		if (input.equalsIgnoreCase("n")) {
 			//sc.close();
@@ -539,6 +540,8 @@ public class DatabaseFrontEnd {
 			int age = Integer.parseInt(sc.nextLine());
 			Member newMember= new Member(age,name,pass);
 			db.addAccount(newMember);
+			user = newMember;
+			return true;
 
 		}
 		else if (input.equalsIgnoreCase("y")) {

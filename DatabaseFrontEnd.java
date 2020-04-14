@@ -521,7 +521,7 @@ public class DatabaseFrontEnd {
 			}
 		}
 	}
-
+   //GET TESTED HERE
 	public static boolean logIn() {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Welcome to MockBuster!! Would you like to log in?\nY/N\nor Create account C");
